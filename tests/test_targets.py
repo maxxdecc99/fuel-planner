@@ -1,6 +1,6 @@
 import pytest
 
-from targets import carbs_per_hour, sweat_rate
+from targets import base_fluid_per_hour, carbs_per_hour, sweat_rate
 
 
 def test_carbs_short_race_needs_none():
@@ -39,3 +39,17 @@ def test_sweat_rate_ninety_minutes():
 def test_sweat_rate_rejects_zero_duration():
     with pytest.raises(ValueError):
         sweat_rate(70.0, 69.2, 300, 0)
+
+def test_base_fluid_cold_is_minimum():
+    assert base_fluid_per_hour(5) == 400
+    assert base_fluid_per_hour(10) == 400
+
+
+def test_base_fluid_hot_is_maximum():
+    assert base_fluid_per_hour(25) == 800
+    assert base_fluid_per_hour(30) == 800
+
+
+def test_base_fluid_in_between():
+    assert base_fluid_per_hour(16) == 560
+    assert base_fluid_per_hour(17.5) == 600

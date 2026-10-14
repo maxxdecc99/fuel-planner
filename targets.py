@@ -18,3 +18,14 @@ def sweat_rate(weight_before_kg: float, weight_after_kg: float, fluid_drunk_ml: 
     total_sweat_ml = weight_loss_ml + fluid_drunk_ml
     duration_hours = duration_minutes / 60
     return round(total_sweat_ml / duration_hours)
+
+
+def base_fluid_per_hour(temperature_c: float) -> int:
+    ml_per_degree = 400 / (25 - 10)
+    degrees_above_10 = temperature_c - 10
+    if temperature_c <= 10:
+        return 400
+    elif temperature_c >= 25:
+        return 800
+    else:
+        return round(400 + ml_per_degree * degrees_above_10)
