@@ -21,4 +21,12 @@ assert carbs_per_hour(119) == 30
 assert carbs_per_hour(120) == 60
 assert carbs_per_hour(149) == 60
 assert carbs_per_hour(150) == 90
-print("all tests work")
+print("all carbs per hour tests work")
+
+
+def sweat_rate(weight_before_kg: float, weight_after_kg: float, fluid_drunk_ml: int, duration_minutes: int) -> int:
+    return round(((weight_before_kg - weight_after_kg) * 1000 + fluid_drunk_ml) / (duration_minutes / 60))
+
+assert sweat_rate(70.0, 69.2, 300, 60) == 1100
+assert sweat_rate(70.0, 69.2, 300, 90) == 733
+print("all sweat rate tests work")
