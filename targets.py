@@ -29,3 +29,17 @@ def base_fluid_per_hour(temperature_c: float) -> int:
         return 800
     else:
         return round(400 + ml_per_degree * degrees_above_10)
+
+
+def estimated_fluid_per_hour(temperature_c: float, sweat_profile: str) -> int:
+    base = base_fluid_per_hour(temperature_c)
+    if sweat_profile == "low":
+        fluid = base - 100
+    elif sweat_profile == "average":
+        fluid = base
+    elif sweat_profile == "high":
+        fluid = base + 100
+    else:
+        raise ValueError(f'Input should be low, average or high. Got "{sweat_profile}"')
+
+    return max(400, min(fluid, 800))

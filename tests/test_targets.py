@@ -1,6 +1,6 @@
 import pytest
 
-from targets import base_fluid_per_hour, carbs_per_hour, sweat_rate
+from targets import base_fluid_per_hour, carbs_per_hour, sweat_rate, estimated_fluid_per_hour
 
 
 def test_carbs_short_race_needs_none():
@@ -53,3 +53,21 @@ def test_base_fluid_hot_is_maximum():
 def test_base_fluid_in_between():
     assert base_fluid_per_hour(16) == 560
     assert base_fluid_per_hour(17.5) == 600
+
+def test_estimated_fluid_by_profile():
+    assert estimated_fluid_per_hour(16, "low") == 460
+    assert estimated_fluid_per_hour(16, "average") == 560
+    assert estimated_fluid_per_hour(16, "high") == 660
+
+
+def test_estimated_fluid_never_below_minimum():
+    assert estimated_fluid_per_hour(8, "low") == 400
+
+
+def test_estimated_fluid_never_above_maximum():
+    assert estimated_fluid_per_hour(30, "high") == 800
+
+
+def test_estimated_fluid_rejects_unknown_profile():
+    with pytest.raises(ValueError):
+        estimated_fluid_per_hour(16, "medium")
