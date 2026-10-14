@@ -25,7 +25,19 @@ print("all carbs per hour tests work")
 
 
 def sweat_rate(weight_before_kg: float, weight_after_kg: float, fluid_drunk_ml: int, duration_minutes: int) -> int:
-    return round(((weight_before_kg - weight_after_kg) * 1000 + fluid_drunk_ml) / (duration_minutes / 60))
+    if duration_minutes <= 0:
+        raise ValueError(f"Duration must be more than 0 minutes, got {duration_minutes}")
+    weight_loss_ml = (weight_before_kg - weight_after_kg) * 1000
+    total_sweat_ml = weight_loss_ml + fluid_drunk_ml
+    duration_hours = duration_minutes / 60
+    return round(total_sweat_ml / duration_hours)
+
+
+try:
+    sweat_rate(70.0, 69.2, 300, 0)
+    assert False, "expected a ValueError for 0 minutes"
+except ValueError:
+    pass
 
 assert sweat_rate(70.0, 69.2, 300, 60) == 1100
 assert sweat_rate(70.0, 69.2, 300, 90) == 733
