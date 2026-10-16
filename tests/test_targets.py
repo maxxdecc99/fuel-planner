@@ -1,6 +1,6 @@
 import pytest
 
-from targets import base_fluid_per_hour, carbs_per_hour, sweat_rate, estimated_fluid_per_hour
+from targets import base_fluid_per_hour, carbs_per_hour, sweat_rate, estimated_fluid_per_hour, sodium_per_liter, sodium_per_hour
 
 
 def test_carbs_short_race_needs_none():
@@ -71,3 +71,18 @@ def test_estimated_fluid_never_above_maximum():
 def test_estimated_fluid_rejects_unknown_profile():
     with pytest.raises(ValueError):
         estimated_fluid_per_hour(16, "medium")
+
+def test_sodium_per_liter_by_profile():
+    assert sodium_per_liter("yes") == 690
+    assert sodium_per_liter("unknown") == 575
+    assert sodium_per_liter("no") == 460
+
+
+def test_sodium_per_liter_rejects_unknown_answer():
+    with pytest.raises(ValueError):
+        sodium_per_liter("maybe")
+
+
+def test_sodium_per_hour():
+    assert sodium_per_hour(600, "yes") == 414
+    assert sodium_per_hour(500, "no") == 230

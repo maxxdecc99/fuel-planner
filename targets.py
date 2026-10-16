@@ -43,3 +43,21 @@ def estimated_fluid_per_hour(temperature_c: float, sweat_profile: str) -> int:
         raise ValueError(f'Input should be low, average or high. Got "{sweat_profile}"')
 
     return max(400, min(fluid, 800))
+
+
+SODIUM_PER_LITER = {
+    "yes": 690,
+    "unknown": 575,
+    "no": 460,
+}
+
+def sodium_per_liter(salty_sweater: str) -> int:
+    if salty_sweater not in SODIUM_PER_LITER:
+        raise ValueError(f'Input should be yes, no or unknown. Got "{salty_sweater}"')
+    return SODIUM_PER_LITER[salty_sweater]
+
+
+def sodium_per_hour(fluid_ml_per_hour: int, salty_sweater: str) -> int:
+    per_liter = sodium_per_liter(salty_sweater)
+    fluid_liter = fluid_ml_per_hour / 1000
+    return round(per_liter * fluid_liter)
